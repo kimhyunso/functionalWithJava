@@ -43,4 +43,5 @@ public class RecordTest {
         assertThat(container.content()).isEqualTo("hello ");
         assertThat(container.identifier()).isEqualTo(" World!");
     }
+
 }
