@@ -1,14 +1,15 @@
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-
 import org.example.domain.Shape;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.AssertionsForClassTypes.*;
 
 public class StreamTest {
     private List<Shape> shapes;
@@ -93,11 +94,45 @@ public class StreamTest {
         assertThat(result).isEqualTo(Arrays.asList(3, 4, 3, 0, 4, 0));
     }
 
+    @Test
+    @DisplayName("스트림 flatMap :: map 연산 후 컨테이너 형태의 요소를 펼친다.")
+    void flatMapTest(){
+        List<Shape> shapes = Arrays.asList(new Shape(4), new Shape(3), new Shape(0));
+
+        List<Shape> result = shapes.stream()
+                .map(Shape::twice)
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+
+        assertThat(result).isEqualTo(Arrays.asList(new Shape(4), new Shape(4), new Shape(3), new Shape(3), new Shape(0), new Shape(0)));
+    }
+
+    @Test
+    @DisplayName("스트림 peek :: 디버깅용")
+    void peekTest(){
+        List<Shape> result = Stream.of(Shape.square(), Shape.triangle(), Shape.circle())
+                .map(Shape::twice)
+                .flatMap(List::stream)
+                .peek(shape -> System.out.println(shape))
+                .filter(shape -> shape.corners() < 4)
+                .collect(Collectors.toList());
+    }
+
+    @Test
+    @DisplayName("스트림 reduce 인수 2개")
+    void reduceTest(){
+        int reduceOnly = Stream.of("apple", "orange", "banana")
+                .peek(str -> System.out.println(str))
+                .reduce(0, (acc, str) -> acc + str.length(), Integer::sum);
 
 
+        int mapReduce = Stream.of("apple", "orange", "banana")
+                .mapToInt(String::length)
+                .peek(length -> System.out.println(length))
+                .reduce(0, (acc, length) -> acc + length);
+
+        System.out.println(mapReduce);
 
 
-
-
-
+    }
 }

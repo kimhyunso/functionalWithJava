@@ -64,9 +64,4 @@ public class ReferenceMethodTest {
         assertThat(newLocaleLambda.apply("test")).hasToString("test");
         assertThat(newLocaleRef.apply("test")).hasToString("test");
     }
-
-
-
-    
-
 }

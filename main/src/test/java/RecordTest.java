@@ -3,6 +3,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 import org.example.record.Container;
 import org.example.record.User;
@@ -16,7 +18,16 @@ public class RecordTest {
     void 레코드(){
         User user = new User("test", false, LocalDateTime.now());
         assertThat(user.username()).isEqualTo("test");
+        List<String> names = Arrays.asList("kim", "rang", "dong", "jang");
+
+        names.stream()
+                .forEach(this::print);
+
         assertThat(user.active()).isFalse();
+    }
+
+    private void print(String name){
+        System.out.println(name);
     }
 
     @Test
