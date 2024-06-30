@@ -123,15 +123,18 @@ public class StreamTest {
     void reduceTest(){
         int reduceOnly = Stream.of("apple", "orange", "banana")
                 .peek(str -> System.out.println(str))
-                .reduce(0, (acc, str) -> acc + str.length(), Integer::sum);
+                .reduce(5, (acc, str) -> acc + str.length(), Integer::sum);
 
         int mapReduce = Stream.of("apple", "orange", "banana")
                 .mapToInt(String::length)
                 .peek(length -> System.out.println(length))
-                .reduce(0, (acc, length) -> acc + length);
+                .reduce(5, (acc, length) -> acc + length);
 
         System.out.println(mapReduce);
 
+        int total = Stream.of(1, 2, 3, 4, 5, 6)
+                .reduce(0, Integer::sum);
 
+        assertThat(total).isEqualTo(21);
     }
 }
