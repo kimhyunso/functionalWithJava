@@ -125,7 +125,6 @@ public class StreamTest {
                 .peek(str -> System.out.println(str))
                 .reduce(0, (acc, str) -> acc + str.length(), Integer::sum);
 
-
         int mapReduce = Stream.of("apple", "orange", "banana")
                 .mapToInt(String::length)
                 .peek(length -> System.out.println(length))
