@@ -7,10 +7,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class PrimitiveStreamTest {
 
@@ -60,5 +65,17 @@ public class PrimitiveStreamTest {
         }
     }
 
+    @DisplayName("날짜 쿼리 테스트")
+    @Test
+    void 날짜쿼리테스트() {
+        boolean isItTeaTime = LocalDateTime.now()
+                .query(temporal -> {
+                    LocalTime time = LocalTime.from(temporal);
+                    return time.getHour() >= 16;
+                });
 
+        assertThat(isItTeaTime).isTrue();
+
+        LocalTime time = LocalDateTime.now().query(LocalTime::from);
+    }
 }
